@@ -1,0 +1,200 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.border:hover{
+    border: 1.5px solid white;
+}
+
+/* Styling NavBar */
+nav{
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background-color: #0f1111;
+    justify-content: space-evenly;
+}
+/* .nav-logo{
+    height: 50px;
+    width: 110px;
+} */
+.logo{
+    background-image: url(../images_used/amazon_logo.png);
+    height: 50px;
+    width: 110px;
+    background-size: cover;
+    
+}
+.address{
+    color: white;
+    width: 80px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.deliver{
+    font-size: 0.75rem;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 16px;
+}
+.add_loc_icon{
+    font-size: 0.9rem;
+    display: flex;
+    /* justify-content: left; */
+}
+.add_loc_icon p{
+    font-size: 1rem;
+    font-weight: 700;
+    margin-left: 5px;
+}
+/* .icon{
+    margin-right: 4.7px;
+} */
+
+/* search bar */
+.search_bar{
+    display: flex;
+    width: 890px;
+}
+.search_icon{
+    width: 45px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: orange;
+ }
+.search_icon i{
+    border: none;
+}
+ .search_icon:hover{
+    background-color: #ff8c00;
+ }
+.search{
+    width: 790px;
+    height: auto;
+    font-size: 1rem;
+}
+.search_bar select{
+    width: 55px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: rgb(213, 207, 207);
+    text-align: center;
+}
+.search_bar input{
+    padding-left: 5px;
+}
+.search_bar select option{
+    border: none;
+}
+select:hover{
+    background-color: gray;
+}
+/* .search_bar:hover{
+    border: 2px solid #ff8c00;
+    border-radius: 4px;
+} */
+
+/* signin box */
+.signin{
+    height: 50px;
+    width: 130px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding-top: 10px;
+    padding-left: 15px; */
+}
+.hello{
+    font-size: 0.75rem;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    text-align: left ;
+}
+.account{
+    font-size: 0.9rem;
+    font-weight: 700;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    text-align: left ;
+}
+
+/* return and orders */
+.returns_and_orders{
+    height: 50px;
+    width: 80px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding-top: 10px;
+    padding-left: 15px; */
+}
+.returns{
+    font-size: 0.75rem;
+    text-align: left;
+}
+.orders{
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* Cart */
+.cart{
+    height: 50px;
+    width: 80px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart_icon{
+    font-size: 1.5rem;
+
+}
+.cart_text{
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* panel */
+.panel{
+    background-color: #222f3d;
+    color: white;
+    height: 40px;
+    display: flex;
+}
+.deals{
+    display: flex;
+}
+.menu{
+    padding-left: 7px;
+    padding-right: 7px;
+    display: flex;
+    align-items: center;
+}
+.menu p{
+    margin-left: 3px;
+}
+.todays_deals,.customer_Service,.registry,.gift_Cards,.sell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 7px;
+    padding-right: 7px;
+}
