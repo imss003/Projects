@@ -20,8 +20,8 @@ nav{
     width: 110px;
 } */
 .logo{
-    background-image: url(../images_used/amazon_logo.png);
-    height: 50px;
+    background-image: url(images_used/amazon_logo.png);
+    height: 60px;
     width: 110px;
     background-size: cover;
     
