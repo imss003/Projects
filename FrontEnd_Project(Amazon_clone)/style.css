@@ -6,6 +6,10 @@
 .border:hover{
     border: 1.5px solid white;
 }
+.body{
+    min-height: 100vh;
+    font: arial;
+}
 
 /* Styling NavBar */
 nav{
@@ -63,7 +67,7 @@ nav{
     width: 890px;
 }
 .search_icon{
-    width: 45px;
+    width: 7%;
     height: 40px;
     background-color: white;
     display: flex;
@@ -80,12 +84,12 @@ nav{
     background-color: #ff8c00;
  }
 .search{
-    width: 790px;
+    width: 86%;
     height: auto;
     font-size: 1rem;
 }
 .search_bar select{
-    width: 55px;
+    width: 7%;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     background-color: rgb(213, 207, 207);
@@ -197,4 +201,153 @@ select:hover{
     align-items: center;
     padding-left: 7px;
     padding-right: 7px;
+}
+
+/*hero section*/
+.hero{
+    background-image: url("/Projects/FrontEnd_Project\(Amazon_clone\)/images_used/hero_image.jpg");
+    width: 100%;
+    height: 150vh;
+    background-size: contain;
+    background-color: #039bbd30;
+    background-repeat: no-repeat;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: flex-end;
+    
+}
+.shopcontent{
+    /* margin-top: 50%; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 75%;
+    align-items: center;
+}
+.goto{
+    display: flex;
+    width: 80%;
+    height: 6%;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.goto a{
+    color: rgb(22, 161, 216);
+}
+.shop{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.box{
+    width:23% ;
+    background-color: white;
+    height: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.box h2{
+    margin-top: 1rem;
+}
+.box_content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.fash_img1{
+    background-image: url("images_used/fashion1.jpg");
+}
+.fash_img2{
+    background-image: url("images_used/fashion2.jpg");
+}
+.fash_img3{
+    background-image: url("images_used/fashion3.jpg");
+}
+.fash_img4{
+    background-image: url("images_used/fashion4.jpg");
+}
+.shop_img{
+    background-size: cover;
+    height: 85%;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.box11{
+    width: 40%;
+    height: 40%;
+}
+.box a{
+    align-self: self-start;
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: rgb(22, 161, 216);
+}
+.game_img1{
+    background-image: url("images_used/game1.jpg");
+}
+.game_img2{
+    background-image: url("images_used/game2.jpg");
+}
+.game_img3{
+    background-image: url("images_used/game3.jpg");
+}
+.game_img4{
+    background-image: url("images_used/game4.jpg");
+}
+.refresh1{
+    background-image: url("images_used/refresh1.jpg");
+}
+.refresh2{
+    background-image: url("images_used/refresh2.jpg");
+}
+.refresh3{
+    background-image: url("images_used/refresh3.jpg");
+}
+.refresh4{
+    background-image: url("images_used/refresh4.jpg");
+}
+.shop_bigimg{
+    height: 90%;
+    width: 100%;
+    background-size: cover;
+    margin: 1rem;
+}
+.pcimg{
+    background-image: url("images_used/pcimg.jpg");
+}
+.gadgetimg{
+    background-image: url("images_used/gadget.jpg");
+}
+.gift1{
+    background-image: url("images_used/gift1.jpg");
+}
+.gift2{
+    background-image: url("images_used/gift2.jpg");
+}
+.gift3{
+    background-image: url("images_used/gift3.jpg");
+}
+.gift4{
+    background-image: url("images_used/gift4.jpg");
+}
+.top{
+    background-image: url("images_used/limited.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 4rem;
+}
+.toys{
+    background-image: url("images_used/toys.jpg");
 }
