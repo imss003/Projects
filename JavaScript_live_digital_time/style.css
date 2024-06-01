@@ -1,0 +1,22 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.Clock{
+    height: 3rem;
+    width: 7rem;
+    background-color: #414141;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body{
+    background-color: gray;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
