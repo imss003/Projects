@@ -2,7 +2,7 @@ import React from 'react'
 import {FaTrashAlt} from 'react-icons/fa'
 const MakeItem = ({item, handleCheck, handleDelete}) => {
   return (
-    <li key={item.id} className=' text-xl bg-gray-200 flex border-black border-b-2 justify-between pt-4'>
+    <li  className=' text-xl bg-gray-200 flex border-black border-b-2 justify-between pt-4'>
         <div>
             <input 
                 type="checkbox"
