@@ -12,7 +12,9 @@ const MakeItem = ({item, handleCheck, handleDelete}) => {
                     handleCheck(item.id);
                 }}
             />
-            <label className='p-4 focus:underline' style={(item.checked) ? {textDecoration: 'line-through'} : null}>{item.name}</label>
+            <label 
+                className='p-4 focus:underline' 
+                style={(item.checked) ? {textDecoration: 'line-through'} : null}>{item.name}</label>
 
         </div>
         <FaTrashAlt
