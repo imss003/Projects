@@ -4,11 +4,15 @@ import Footer from './Footer.jsx'
 import Content from './Content.jsx'
 import AddItem from './AddItem.jsx'
 import SearchItem from './SearchItem.jsx'
+import { useEffect } from 'react'
 
 function App() {
-  const [items, setItems] = useState(JSON.parse(localStorage.getItem('listItems')));
+  const [items, setItems] = useState((JSON.parse(localStorage.getItem('listItems'))) || []);// if we dont do this then if someone deletes the localstorage key, then our application will fail. hence we use the empty array with or operator.
   const [newItem, setNewItem] = useState('');
   const [searchItem, setSearchItem] = useState('');
+  useEffect(() => {
+    localStorage.setItem('listItems', JSON.stringify(items)); // we use useeffect to store he changed items inside the listitems to do it efficiently. the dependencies has the array items. so when the items changes the useeffect is called and the localstorage is updated.
+  }, [items])
   function handleCheck(id){
       const listItems = items.map((item) => {
           if(item.id === id){
@@ -19,7 +23,7 @@ function App() {
               return item;
           }
       });
-      localStorage.setItem('listItems', JSON.stringify(listItems));
+
       setItems(listItems);
   }
   function handleDelete(id){
@@ -28,7 +32,6 @@ function App() {
               return item;
           }
       })
-      localStorage.setItem('listItems', JSON.stringify(listITems));
       setItems(listITems);
   }
   function handleSubmit(e){
@@ -38,7 +41,6 @@ function App() {
     }
     setNewItem('');
     const itemsList = [...items, {id: items.length + 1, name: newItem, checked: false}];
-    localStorage.setItem('listItems', JSON.stringify(itemsList));
     setItems(itemsList);
   }
   return (
