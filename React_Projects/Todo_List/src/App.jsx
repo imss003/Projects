@@ -1,98 +1,114 @@
-import { useEffect, useState } from 'react'
-import Header from './Header'
-import Content from './Content'
-import Filtering from './Filtering'
-import AddItem from './AddItem'
+import { useEffect, useRef, useState } from 'react'
+import Header from './Components/Header'
+import Content from './Components/Content'
+import Filtering from './Components/Filtering'
+import AddItem from './Components/AddItem'
+import { ContextProvider, TodoContext, useTodo } from './Contexts/TodoContext'
+import { themeProvider } from './Contexts/ThemeContext'
 
 function App() {
-    const [items, setItems] = useState(JSON.parse(localStorage.getItem("localStorage")) || []);
-    const [item, setItem] = useState('');
-    const [filter, setFilter] = useState('All');
-    const [edit, setEdit] = useState(0);
-    // useEffect(() => {
-        
-    // }, [handleSubmit, handleDelete]);
-    // function filtering(){
-    //   let listItems;
-    //   if(filter === 'All'){
-    //     return listItems;
-    //   }
-    //   else if(filter === 'Completed'){
-    //     return listItems.filter(item => item.checked === true);
-    //   }
-    //   else if(filter === 'active'){
-    //     return listItems.filter(item => item.checked === false);
-    //   }
-    // }
-    function handleSubmit(e){
-        e.preventDefault();
-        if(item === ''){
-            return;
-        }
-        // console.log(`item is: ${item}`);
-        // console.log('clicked')
-        setItem('');
-        const listItems = [...items, {id: items.length + 1, name: item, checked: false}];
-        setItems(listItems);
-        // console.log(listItems);
-        localStorage.setItem("localStorage", JSON.stringify(listItems));
-    }
-    function handleCheck(id){
-        items.map((i) => {
-            if(i.id === id){
-                i.checked = !i.checked;
-            }
-        })
-        localStorage.setItem("localStorage", JSON.stringify(items));
-    }
-    function handleDelete(id){
-        const listItems = items.filter((i) => {
-            if(i.id != id){
-                return i;
-            }
-        })
-        setItems(listItems);
-        localStorage.setItem("localStorage", JSON.stringify(listItems));
-    }
-    function editing(id){
+    const [todos, setTodos] = useState([]);
+    const [editable, setEditable] = useState(false);
+    const [filter, setFilter] = useState('all');
+    const [updatedname, setUpdatedname] = useState("");
+    const [editID, setEditID] = useState(0);
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+      console.log("called");
+      
+      const temptodo = localStorage.getItem("localStore");
+      if(JSON.parse(temptodo).length > 0){
+        setTodos(JSON.parse(temptodo));
+      }
+    }, [])
+    useEffect(() => {
+      // console.log("changed todo is: ", todos);
+      localStorage.setItem("localStore", JSON.stringify(todos));
+    },[todos])
+
+    const inputref = useRef();
+    const takeref = useRef();
+    
+    const editTodo = (todo) => {
+      setUpdatedname(todo.name);
+      setEditable(true);
+      console.log(`updated name is ${updatedname}`);
+      // if(takeref.current !== undefined){
+      //   console.log("takeref is: ",takeref.current)
+      //   takeref.current.focus();
+      //   takeref.current.select();
+      // }
       
     }
-    // useEffect(filtering, [filter]);
+
+    const updateTodo = (id, msg) => {
+      setTodos((prevTodo) => (prevTodo.map((item) => {
+        if (item.id === id) {
+          item.name = msg;
+          return item;
+        }
+        return item;
+      })))
+      
+    }
+    const addTodo = (todo) => {
+      if(!todo){
+        return;
+      }
+      console.log("added");
+      setTodos([...todos, todo]);
+    }
+    const deleteTodo = (id) => {
+      console.log('clicked');
+      setTodos((prevTodo) => (prevTodo.filter((item) => (item.id !== id))))
+    }
+    const checkTodo = (id) => {
+      // console.log("changed for id", id);
+      setTodos((prevTodo) => (prevTodo.map((item) => (item.id === id ? {...item, done: !item.done} : item))))
+      
+    }
     return (
-      <>
-        <Header/>
-        <AddItem
-          items={items}
-          item={item}
-          setItem={setItem}
-          handleSubmit={handleSubmit}
-        />
-        <Filtering
-          setFilter={setFilter}
-          items={items}
-        />
-        <Content
-          items={items.filter((i) => {
-            if(filter === 'All'){
-              return i;
-            }
-            else if(filter === 'completed'){
-              if(i.checked === true){
-                return i;
-              }
-            }
-            else if(filter === 'active'){
-              if(i.checked === false){
-                return i;
-              }
-            }
-          })}
-          handleDelete={handleDelete}
-          handleCheck={handleCheck}
-          edit={edit}
-          setEdit={setEdit}
-        />
-      </>
+      <themeProvider value = {{theme}}>
+      <ContextProvider value={{todos, updateTodo, addTodo, deleteTodo, checkTodo}}>
+        <div
+          className='flex justify-center h-screen w-full items-center '
+        >
+          <button>
+            
+          </button>
+          <div
+            className='h-4/5 w-4/5 flex flex-col items-center bg-gray-700/80 rounded-md'
+            
+          >
+            <Header
+            />
+            <AddItem
+              inputref={inputref}
+            />
+            <Filtering
+              setFilter={setFilter}
+            />
+            <div
+              className='w-full h-full flex justify-center overflow-auto'
+            >
+              <Content
+                array = {todos.filter((todo) => (filter === "active" ? todo.done  === false : filter === "completed" ? todo.done === true : todo))}
+                editable = {editable}
+                setEditable = {setEditable}
+                updatedname = {updatedname}
+                setUpdatedname = {setUpdatedname}
+                editID = {editID}
+                setEditID = {setEditID}
+                editTodo = {editTodo}
+                takeref = {takeref}
+                inputref = {inputref}
+              />
+            </div>
+          </div>
+        </div>
+      </ContextProvider>
+      </themeProvider>
     )
 }
 

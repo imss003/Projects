@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useTodo } from '../Contexts/TodoContext'
 
-const AddItem = ({items, item, setItem, handleSubmit}) => {
+const AddItem = ({inputref}) => {
+    const {addTodo} = useTodo();
+    const [todoname, setTodoname] = useState("");
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const todo = {
+            id: Date.now(),
+            name: todoname,
+            done: false
+        }
+        addTodo(todo);
+        setTodoname("");
+    }
     return (
         <div
             className=' flex justify-center w-full'
         >
             <div 
-                className='flex flex-col items-center bg-slate-300 w-4/5' 
+                className='flex flex-col items-center w-full' 
             >
                 <h2 
-                    className='text-xl mt-2 mb-2'
+                    className='text-xl mt-2 mb-2 text-white'
                 >
                     What needs to be done?
                 </h2>
                 <form 
                     className='flex flex-col w-4/5'
-                    
+                    onSubmit={handleSubmit}
                 >
                     <input 
                         autoFocus
@@ -23,10 +36,11 @@ const AddItem = ({items, item, setItem, handleSubmit}) => {
                         id='input_box'
                         placeholder='Enter new task'
                         className=' border-black border-2 pl-1 h-10 text-xl mb-2'
-                        value={item}
+                        value={todoname}
                         onChange={(e) => {
-                            setItem(e.target.value)
+                            setTodoname(e.target.value)
                         }}
+                        ref={inputref}
                     />
                     <label 
                         htmlFor="#input_box"
@@ -36,8 +50,7 @@ const AddItem = ({items, item, setItem, handleSubmit}) => {
                     </label>
                     <button
                         type='submit'
-                        className=' bg-gray-700 text-white h-8 hover:bg-slate-500 hover:border-black hover:border-2'
-                        onClick={handleSubmit}
+                        className=' bg-pink-400 text-white h-8 hover:bg-pink-700 hover:border-black hover:border-2'
                     >   
                         Add
                     </button>

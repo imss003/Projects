@@ -6,7 +6,7 @@ const Header = () => {
         className='flex justify-center '
     >
         <h1
-            className=' text-3xl font-semibold'
+            className=' text-3xl font-semibold text-white'
         >
             Todo List
         </h1>

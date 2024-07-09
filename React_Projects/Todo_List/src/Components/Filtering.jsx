@@ -1,15 +1,15 @@
 import React from 'react'
 
-const Filtering = ({setFilter, items}) => {
+const Filtering = ({setFilter}) => {
   return (
     <div
-        className='flex justify-center flex-col items-center'
+        className='flex justify-center flex-col items-center w-full mb-2'
     >
         <div 
-        className=' w-3/5 flex justify-between mt-2'
+        className=' w-full flex justify-evenly mt-2'
     >
         <button
-            className=' bg-blue-200 w-28 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
+            className=' bg-blue-200 w-1/4 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
             onClick={() => {
                 setFilter('All');
             }}
@@ -19,7 +19,9 @@ const Filtering = ({setFilter, items}) => {
             >
                 Show
             </span>
-            <span>
+            <span
+                className='text-sm'
+            >
                 All
             </span>
             <span
@@ -29,7 +31,7 @@ const Filtering = ({setFilter, items}) => {
             </span>
         </button>
         <button
-            className=' bg-blue-200 w-28 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
+            className=' bg-blue-200 w-1/4 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
             onClick={() => {
                 setFilter('active');
             }}
@@ -39,7 +41,9 @@ const Filtering = ({setFilter, items}) => {
             >
                 Show
             </span>
-            <span>
+            <span
+                className='text-sm'
+            >
                 Active
             </span>
             <span
@@ -49,7 +53,7 @@ const Filtering = ({setFilter, items}) => {
             </span>
         </button>
         <button
-            className=' bg-blue-200 w-28 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
+            className=' bg-blue-200 w-1/4 flex justify-center h-8 items-center border-gray-400 border-2 hover:border-black hover:cursor-pointer hover:bg-sky-300 hover:font-medium'
             onClick={() => {
                 setFilter('completed');
             }}
@@ -59,7 +63,9 @@ const Filtering = ({setFilter, items}) => {
             >
                 Show
             </span>
-            <span>
+            <span
+                className='text-sm'
+            >
                 Completed
             </span>
             <span
