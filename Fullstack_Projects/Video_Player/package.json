@@ -1,0 +1,16 @@
+{
+  "name": "video_player",
+  "version": "1.0.0",
+  "description": "A project where you can upload and play videos",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "author": "Shubham Shukla",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "prettier": "^3.3.3"
+  }
+}
