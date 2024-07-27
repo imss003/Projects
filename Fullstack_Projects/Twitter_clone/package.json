@@ -2,17 +2,16 @@
   "name": "twitter_clone",
   "version": "1.0.0",
   "description": "",
-  "main": "Backend/src/Server.js",
+  "main": "backend/server.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon Backend/src/Server.js",
-    "start": "node Backend/src/Server.js"
+    "dev": "nodemon backend/server.js"
   },
   "keywords": [],
   "author": "",
-  "type": "module",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.1",
     "cloudinary": "^2.3.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

@@ -52,7 +52,7 @@ const signup = asyncHandler(async (req, res) => {
 const login = asyncHandler(async (req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username});
-    const validPassword = bcrypt.compare(password, user?.password || "");
+    const validPassword = await bcrypt.compare(password, user?.password || "");
     if(!user || !validPassword){
         return res.status(400).json({error: "Invalid username or password"});
     }

@@ -247,5 +247,5 @@ export {
     getAllPosts,
     likedPosts,
     getFollowingPosts,
-    getUsersPost
+    getUsersPost,
 }
