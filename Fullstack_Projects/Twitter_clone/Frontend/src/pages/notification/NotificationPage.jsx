@@ -4,29 +4,24 @@ import LoadingSpinner from "../../components/common/LoadingSpinner";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
 
 const NotificationPage = () => {
-	const isLoading = false;
-	const notifications = [
-		{
-			_id: "1",
-			from: {
-				_id: "1",
-				username: "johndoe",
-				profileImg: "../public/avatar/boy2.png",
-			},
-			type: "follow",
-		},
-		{
-			_id: "2",
-			from: {
-				_id: "2",
-				username: "janedoe",
-				profileImg: "../public/avatar/girl1.png",
-			},
-			type: "like",
-		},
-	];
+	const {data: notifications, isLoading, isError, error, refetch} = useQuery({
+		queryKey: ["notifications"],
+		queryFn: async () => {
+			try {
+				const res = await fetch("/api/notifications/");
+				const data = await res.json();
+				if(data.error){
+					throw new Error(data.error);
+				}
+				return data;
+			} catch (error) {
+				throw new Error(error);
+			}
+		}
+	})
 
 	const deleteNotifications = () => {
 		alert("All notifications deleted");

@@ -75,6 +75,7 @@ const deletePost = asyncHandler(async (req, res) => {
 const likeUnlikePost = asyncHandler(async(req, res) => {
     try {
         const postId = req.params.id;
+        console.log("post ID is: ", postId);
         const userId = req.user._id;
         const post = await Post.findById(postId);
         if(!post){
@@ -85,13 +86,11 @@ const likeUnlikePost = asyncHandler(async(req, res) => {
         const isLiked = post.likes.includes(userId);
         if(isLiked){
             //unlike the post
-            await Post.findByIdAndUpdate(postId, {
-                $pull: {likes: userId}
-            });
+            await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
             await User.updateOne({_id: userId}, { $pull: {likedPosts: postId}});
-            res.status(200).json({
-                message: "Post unliked successfully"
-            });
+            const updatedLikes = post.likes.filter((id) => id.toString() !== userId.toString()); //done to update the count of likes so that when we update the likes we dont have to refetch the posts everytime
+            console.log("updated likes is: ", updatedLikes);
+            res.status(200).json(updatedLikes);
         }
         else{
             //like the post
@@ -105,9 +104,10 @@ const likeUnlikePost = asyncHandler(async(req, res) => {
                 type: "like"
             });
             await notification.save();
-            res.status(200).json({
-                message: "Post liked successfully"
-            });
+            
+            const updatedLikes = post.likes;
+            console.log("updated likes is: ", updatedLikes);
+            res.status(200).json(updatedLikes);
         }
     } catch (error) {
         console.log("Error in likeUnlike post", error.message);
@@ -212,7 +212,9 @@ const getFollowingPosts = asyncHandler(async(req, res) => {
             select: "-password"
         })
 
-        res.status(200).json(posts);
+        res.status(200).json({
+            posts
+        });
     } catch (error) {
         console.log("Error in getFollowingPosts", error.message);
         res.status(500).json({ error: "Internal server error" });
