@@ -1,12 +1,12 @@
-import { Router } from "express";
-import protectedRoute from "../middlewares/protectedRoute.middleware.js";
-import { getUserProfile, followUnfollowUser, getSuggestedUsers, updateUserProfile } from "../controllers/user.controller.js";
+import express from "express";
+import { protectRoute } from "../middleware/protectRoute.js";
+import { followUnfollowUser, getSuggestedUsers, getUserProfile, updateUser } from "../controllers/user.controller.js";
 
-const userRoute = Router();
+const router = express.Router();
 
-userRoute.route("/profile/:username").get(protectedRoute, getUserProfile);
-userRoute.route("/suggested").get(protectedRoute, getSuggestedUsers);
-userRoute.route("/follow/:id").post(protectedRoute, followUnfollowUser);
-userRoute.route("/update").post(protectedRoute, updateUserProfile);
+router.get("/profile/:username", protectRoute, getUserProfile);
+router.get("/suggested", protectRoute, getSuggestedUsers);
+router.post("/follow/:id", protectRoute, followUnfollowUser);
+router.post("/update", protectRoute, updateUser);
 
-export default userRoute ;
+export default router;

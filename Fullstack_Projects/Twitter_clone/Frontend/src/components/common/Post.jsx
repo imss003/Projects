@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
 import LoadingSpinner from "./LoadingSpinner";
-// import { formatPostDate } from "../../utils/date";
+import { formatPostDate } from "../../utils/date";
 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
 	const isMyPost = authUser._id === post.user._id;
 
-	const formattedDate = "1h";
+	const formattedDate = formatPostDate(post.createdAt);
 
 	const { mutate: deletePost, isPending: isDeleting } = useMutation({
 		mutationFn: async () => {
@@ -47,7 +47,6 @@ const Post = ({ post }) => {
 	const { mutate: likePost, isPending: isLiking } = useMutation({
 		mutationFn: async () => {
 			try {
-				console.log("initially post is: ", post);
 				const res = await fetch(`/api/posts/like/${post._id}`, {
 					method: "POST",
 				});
@@ -55,32 +54,24 @@ const Post = ({ post }) => {
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong");
 				}
-				console.log("data is: ", data);
 				return data;
 			} catch (error) {
 				throw new Error(error);
 			}
 		},
 		onSuccess: (updatedLikes) => {
-			console.log("updated likes is: ", updatedLikes);
 			// this is not the best UX, bc it will refetch all posts
 			// queryClient.invalidateQueries({ queryKey: ["posts"] });
 
 			// instead, update the cache directly for that post
 			queryClient.setQueryData(["posts"], (oldData) => {
-				console.log("olddata is: ", oldData);
-				return {
-                    ...oldData,
-                    posts: oldData.posts.map((p) => {
-                        if (p._id === post._id) {
-                            return { ...p, likes: updatedLikes };
-                        }
-                        return p;
-                    }),
-                };
+				return oldData.map((p) => {
+					if (p._id === post._id) {
+						return { ...p, likes: updatedLikes };
+					}
+					return p;
+				});
 			});
-			console.log("post after new data is: ", post);
-			queryClient.invalidateQueries({queryKey: ["notifications"]})
 		},
 		onError: (error) => {
 			toast.error(error.message);
@@ -99,8 +90,8 @@ const Post = ({ post }) => {
 				});
 				const data = await res.json();
 
-				if (data.error) {
-					throw new Error(data.error);
+				if (!res.ok) {
+					throw new Error(data.error || "Something went wrong");
 				}
 				return data;
 			} catch (error) {

@@ -1,64 +1,35 @@
 import { Link } from "react-router-dom";
-import RightPanelSkeleton from "../skeleton/RightPanelSkeleton";
-import { USERS_FOR_RIGHT_PANEL } from "../../utils/db/dummy";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+
+import useFollow from "../../hooks/useFollow";
+
+import RightPanelSkeleton from "../skeletons/RightPanelSkeleton";
+import LoadingSpinner from "./LoadingSpinner";
 
 const RightPanel = () => {
-	const {data: users, isLoading, refetch} = useQuery({
-		queryKey: ['users'],
+	const { data: suggestedUsers, isLoading } = useQuery({
+		queryKey: ["suggestedUsers"],
 		queryFn: async () => {
 			try {
 				const res = await fetch("/api/users/suggested");
 				const data = await res.json();
-				if(data.error){
-					throw new Error(data.error);
+				if (!res.ok) {
+					throw new Error(data.error || "Something went wrong!");
 				}
-				console.log("users data is: ", data);
 				return data;
 			} catch (error) {
-				throw new Error(error);
+				throw new Error(error.message);
 			}
 		},
-		retry: false
-	})
-	// if(users?.length === 0){
-	// 	return (<div
-	// 		className="md:w-64 w-0"
-	// 	>
+	});
 
-	// 	</div>);
-	// }
+	const { follow, isPending } = useFollow();
 
-	console.log("users is: ", users);
-	const queryClient = useQueryClient();
-	
-	const {mutate: followUser, isPending, isError, error} = useMutation({
-		mutationFn: async(id) => {
-			try {
-				console.log("id is: ", id);
-				const res = await fetch(`/api/users/follow/${id}`, {
-					method: 'POST'
-				});
-				const data = await res.json();
-				if(data.error){
-					throw new Error(data.error);
-				}
-				console.log("follow data is: ", data);
-				return data;
-			} catch (error) {
-				throw new Error(error);
-			}
-		},
-		onSuccess: () => {
-			toast.success("Followed Successfully!!");
-			refetch();
-			queryClient.invalidateQueries({queryKey: ["notifications"]});
-		}
-	})
+	if (suggestedUsers?.length === 0) return <div className='md:w-64 w-0'></div>;
+
 	return (
-		<div className='hidden md:w-64 lg:block my-4 mx-2'>
-			{(users && users.length > 0) ? <div className='bg-[#16181C] p-4 rounded-md sticky top-2'>
+		<div className='hidden lg:block my-4 mx-2'>
+			<div className='bg-[#16181C] p-4 rounded-md sticky top-2'>
 				<p className='font-bold'>Who to follow</p>
 				<div className='flex flex-col gap-4'>
 					{/* item */}
@@ -71,7 +42,7 @@ const RightPanel = () => {
 						</>
 					)}
 					{!isLoading &&
-						users?.map((user) => (
+						suggestedUsers?.map((user) => (
 							<Link
 								to={`/profile/${user.username}`}
 								className='flex items-center justify-between gap-4'
@@ -95,18 +66,16 @@ const RightPanel = () => {
 										className='btn bg-white text-black hover:bg-white hover:opacity-90 rounded-full btn-sm'
 										onClick={(e) => {
 											e.preventDefault();
-											followUser(user._id)
+											follow(user._id);
 										}}
 									>
-										{isPending ? `Following...` : 'Follow'}
+										{isPending ? <LoadingSpinner size='sm' /> : "Follow"}
 									</button>
 								</div>
 							</Link>
 						))}
 				</div>
-			</div> : 
-			<div></div>
-			}
+			</div>
 		</div>
 	);
 };

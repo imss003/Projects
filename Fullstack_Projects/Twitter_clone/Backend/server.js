@@ -1,31 +1,48 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
-import authRoute from "./routes/auth.route.js";
-import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
-import userRoute from "./routes/user.route.js";
-import {v2 as cloudinary} from "cloudinary"
-import postRoutes from "./routes/post.routes.js";
-import notificationRoute from "./routes/notification.route.js";
+import { v2 as cloudinary } from "cloudinary";
+
+import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
+import postRoutes from "./routes/post.route.js";
+import notificationRoutes from "./routes/notification.route.js";
+
+import connectMongoDB from "./db/connectMongoDB.js";
 
 dotenv.config();
-cloudinary.config({ 
-    cloud_name: process.env.CLOUD_NAME, 
-    api_key: process.env.API_KEY, 
-    api_secret: process.env.API_SECRET 
+
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.API_KEY,
+	api_secret: process.env.API_SECRET,
 });
 
 const app = express();
-app.use(express.urlencoded({extended: true}));
-app.use(express.json()); //used to parse the form data(url encoded)
-app.use(cookieParser());//used to parse the req so we could get the cookies
+const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
+app.use(express.json({ limit: "5mb" })); // to parse req.body
+// limit shouldn't be too high to prevent DOS
+app.use(express.urlencoded({ extended: true })); // to parse form data(urlencoded)
+
+app.use(cookieParser());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/notifications", notificationRoute);
+app.use("/api/notifications", notificationRoutes);
 
-app.listen(process.env.PORT || 4000, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-    connectDB();
-})
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
+
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+	connectMongoDB();
+});

@@ -1,12 +1,12 @@
-import { Router } from "express";
+import express from "express";
 import { getMe, login, logout, signup } from "../controllers/auth.controller.js";
-import protectedRoute from "../middlewares/protectedRoute.middleware.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 
-const authRoute = Router();
+const router = express.Router();
 
-authRoute.route("/me").get(protectedRoute , getMe)
-authRoute.route("/signup").post(signup);
-authRoute.route("/login").post(login);
-authRoute.route("/logout").post(logout);
+router.get("/me", protectRoute, getMe);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
-export default authRoute;
+export default router;
