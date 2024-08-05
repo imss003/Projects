@@ -5,32 +5,26 @@ import { MdSubscriptions } from "react-icons/md";
 import { MdAccountBox } from "react-icons/md";
 import { useTheme } from '@emotion/react';
 import { Link } from 'react-router-dom';
-const SideBar = () => {
-    const [visible, setVisible] = useState(false);
-    console.log("here");
-    const handleClick = () => {
-        console.log("went in");
-        setVisible(!visible);
-        console.log("visible is: ", visible);
-    }
+const SideBar = ({isExpanded, handleSidebarToggle}) => {
+    
     const theme = useTheme();
   return (
     <div
         
-        className={`pl-2 flex flex-col text-white min-h-screen w-fit fixed top-0 left-0 z-40 ${visible ? '': 'bg-opacity-0'}`}
+        className={`pl-2 flex flex-col text-white h-screen w-10 ${isExpanded ? 'w-36': ''} border-r-2 border-white ${isExpanded ? "z-50":""} ${isExpanded ? "absolute" : "relative"} `}
         style={{backgroundColor: theme.colors.backGround[800]}}
     >
         <div
-            className='h-14 flex items-center'
+            className='h-14 flex items-center w-fit'
         >
             <GiHamburgerMenu 
                 className='text-white cursor-pointer text-xl hover:text-gray-400'
-                onClick={handleClick}
+                onClick={handleSidebarToggle}
             />
         </div>
         <div
-            style={visible === false ? {backgroundColor: theme.colors.backGround[800]} : {}}
-            className={`min-h-screen ${visible ? 'mr-4' : ""}`}
+            style={isExpanded === false ? {backgroundColor: theme.colors.backGround[800]} : {}}
+            className={`h-screen ${isExpanded ? 'mr-4' : ""} `}
         >
             <div>
                 <Link
@@ -43,7 +37,7 @@ const SideBar = () => {
                         <FaHome />
                     </div>
                     <div
-                        className={`${visible ? '': 'hidden'} hover:underline`}
+                        className={`${isExpanded ? '': 'hidden'} hover:underline`}
                     >
                         Home
                     </div>
@@ -53,13 +47,13 @@ const SideBar = () => {
                 className='h-14 flex items-center'
             >
                 <div
-                    className='mr-2 text-xl'
+                    className='mr-2 text-xl cursor-pointer'
                 >
                     <MdSubscriptions />
                 </div>
                 
                 <div
-                    className={`${visible ? '': 'hidden'}`}
+                    className={`${isExpanded ? '': 'hidden'} hover:underline cursor-pointer`}
                 >
                     Subcriptions
                 </div>
@@ -68,12 +62,12 @@ const SideBar = () => {
                 className='flex items-center h-14 '
             >
                 <div
-                    className='mr-2 text-xl'
+                    className='mr-2 text-xl cursor-pointer'
                 >
                     <MdAccountBox />
                 </div>
                 <div
-                    className={`${visible ? '': 'hidden'}`}
+                    className={`${isExpanded ? '': 'hidden'} hover:underline cursor-pointer`}
                 >
                     Your channel
                 </div>

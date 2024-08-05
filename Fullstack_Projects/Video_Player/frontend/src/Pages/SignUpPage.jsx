@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const LoginPage = () => {
+const SignUpPage = () => {
   return (
     <div
         style={{backgroundImage: `URL('../public/loginPageImage.jpg')`,
@@ -19,7 +19,6 @@ const LoginPage = () => {
                     className='flex flex-col items-center hidden md:block'
                 >
                     <h1 className='text-5xl font-bold text-gray-900 '>Welcome</h1>
-                    <h1 className='text-5xl font-bold text-gray-900 '>Back</h1>
                 </div>
                 <div
                     className='flex flex-col items-center w-[40vw] h-fit text-sm md:text-lg'
@@ -39,7 +38,21 @@ const LoginPage = () => {
                             className='border-2 border-black p-2 w-[65%]' 
                         />
                     </div>
-                    
+                    <div
+                        className='w-full flex justify-between mb-2 items-center'
+                    >
+                        <label 
+                            htmlFor="email"
+                            className="mr-2 w-[35%]"
+                        >
+                            Email
+                        </label>
+                        <input 
+                            id='email'
+                            type="text"
+                            className='border-2 border-black p-2 w-[65%]' 
+                        />
+                    </div>
                     <div
                         className='w-full flex justify-between items-center'
                     >
@@ -57,23 +70,23 @@ const LoginPage = () => {
                     </div>
                     <div>
                         <button
-                            className='bg-white h-10 w-16 rounded-md mt-2 hover:bg-gray-100 hover:shadow-md'
+                            className='bg-white h-10 w-20 rounded-md mt-2 hover:bg-gray-100 hover:shadow-md'
                         >
-                            Login
+                            Sign up
                         </button>
                     </div>
                     <div
                         className='mt-2 flex flex-col items-center md:flex-row'
                     >
                         <p>
-                            Don't have an account? 
+                            Already have an account? 
                             
                         </p>
                         <Link
-                            to = '/signup'
+                            to = '/login'
                             className='ml-2 text-blue-600 hover:underline font-medium '
                         >
-                            Sign up
+                            Login
                         </Link>
                     </div>
                     <div
@@ -104,4 +117,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default SignUpPage

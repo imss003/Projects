@@ -8,11 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 const colors = {
   backGround: {
-    900: "#051923",
-    800: "#003554",
+    900: "#005f73",
+    800: "#000000",
     700: "#006494",
     600: "#0582ca",
-    500: "#00a6fb"
+    500: ""
   }
 }
 const theme = extendTheme({colors});

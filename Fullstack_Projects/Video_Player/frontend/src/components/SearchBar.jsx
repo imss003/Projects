@@ -9,13 +9,13 @@ const SearchBar = () => {
   return (
     <div
         style={{background: theme.colors.backGround[800]}}
-        className='h-14 w-full text-white ml-8'
+        className='h-14 w-full text-white border-b-2 border-white'
     >
         <div
-            className='  flex justify-center h-full'
+            className='flex justify-center h-full w-full'
         >
             <div
-                className='flex justify-between w-[90vw]  h-full items-center'
+                className='flex justify-between w-[90%]  h-full items-center'
             >
                 <Link
                     to="/"
