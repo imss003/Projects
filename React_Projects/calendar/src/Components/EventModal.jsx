@@ -7,89 +7,88 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 const EventModal = () => {
-    // Context values
+    // Extract relevant context values for modal visibility, selected day, and event management
     const { setEventModalShow, selectedDay } = useContext(MonthContext);
     const { addEvent, updateEvent, selectedEvent, setSelectedEvent } = useContext(EventContext);
-    
-    // State for form inputs
+
+    // Initialize state for form fields, with default values based on the selectedEvent if available
     const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
     const [desc, setDesc] = useState(selectedEvent ? selectedEvent.description : "");
     const [tag, setTag] = useState(selectedEvent ? selectedEvent.tag : "");
 
-    // Handle form submission
+    // Handle form submission for adding or updating an event
     const handleSubmit = (e) => {
         e.preventDefault();
         if (selectedEvent) {
-            // Update event if selectedEvent exists
+            // Update the existing event
             updateEvent(selectedEvent.id, title, desc, tag);
         } else {
-            // Add new event otherwise
+            // Add a new event
             addEvent(title, desc, selectedDay, tag);
         }
+        // Hide the modal and reset selected event
         setEventModalShow(false);
         setSelectedEvent(null);
     };
-    console.log("tag is: ", tag);
+
     return (
-        // Modal overlay
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-            {/* Modal content container */}
-            <div className='relative bg-white rounded-md border-2 border-gray-300 w-[50%] h-[50%] flex flex-col items-end p-4'>
-                {/* Close button */}
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4'>
+            {/* Modal container with styling for centering and ensuring it is above other components */}
+            <div className='relative bg-white rounded-lg shadow-lg w-full max-w-md md:max-w-lg h-auto flex flex-col items-end p-4'
+                style={{ zIndex: 9999 }} // Ensure the modal is on top
+            >
+                {/* Close button to hide the modal */}
                 <button
                     onClick={() => {
                         setEventModalShow(false);
                         setSelectedEvent(null);
-                    }
-                }
+                    }}
                     className='absolute top-2 right-2 text-gray-700 hover:text-gray-900'
                 >
                     <IoIosClose className='w-8 h-8' />
                 </button>
 
-                {/* Modal form */}
                 <form className='w-full flex flex-col items-center justify-center' onSubmit={handleSubmit}>
-                    <h1 className='text-2xl mb-4 font-bold font-serif'>
+                    <h1 className='text-xl md:text-2xl mb-4 font-bold'>
                         {selectedEvent ? 'Edit Event' : 'Add Event'}
                     </h1>
 
-                    {/* Title input */}
-                    <div className='flex items-center justify-between w-full mb-2'>
-                        <label htmlFor="title" className='font-semibold'>Title</label>
+                    {/* Input field for event title */}
+                    <div className='flex flex-col w-full mb-4'>
+                        <label htmlFor="title" className='font-semibold mb-2'>Title</label>
                         <input
                             type="text"
                             placeholder='Add Title'
                             id='title'
-                            className="pt-3 border-0 text-gray-600 text-l font-semibold pb-2 w-[70%] border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-600"
+                            className="border-b-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-600 text-base py-2 px-4 rounded-md"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
 
-                    {/* Description input */}
-                    <div className='mb-2 flex items-center justify-between w-full'>
-                        <label htmlFor="desc" className='font-semibold'>Description</label>
+                    {/* Textarea for event description */}
+                    <div className='flex flex-col w-full mb-4'>
+                        <label htmlFor="desc" className='font-semibold mb-2'>Description</label>
                         <textarea
                             id="desc"
                             placeholder='Add Description'
-                            className="pt-3 border-0 text-gray-600 text-l font-semibold pb-2 w-[70%] border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-blue-500"
+                            className="border-b-2 border-gray-300 focus:border-blue-500 focus:outline-none text-gray-600 text-base py-2 px-4 rounded-md"
                             rows="4"
                             value={desc}
                             onChange={(e) => setDesc(e.target.value)}
                         />
                     </div>
 
-                    {/* Tag selection dropdown */}
-                    <div className='mb-4 w-[70%]'>
-                        <Menu as="div" className="relative inline-block text-left">
-                            <div>
-                                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                    {tag || "Select Tag"}
-                                    <ChevronDownIcon aria-hidden="true" className="-mr-1 h-5 w-5 text-gray-400" />
-                                </MenuButton>
-                            </div>
-                            <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none">
+                    {/* Dropdown menu for selecting event tag */}
+                    <div className='w-full mb-4'>
+                        <Menu as="div" className="relative w-full">
+                            <MenuButton className="inline-flex w-full justify-between rounded-md bg-white py-2 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50">
+                                {tag || "Select Tag"}
+                                <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            </MenuButton>
+                            <MenuItems className="absolute right-0 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                                 <div className="py-1">
+                                    {/* Tag options */}
                                     <MenuItem>
                                         <p
                                             onClick={() => setTag('Work')}
@@ -111,40 +110,28 @@ const EventModal = () => {
                         </Menu>
                     </div>
 
-                    {/* Save or Cancel buttons */}
-                    <div>
-                        {selectedEvent ? (
-                            <>
-                                <button
-                                    type="button"
-                                    className="bg-red-500 hover:bg-red-600 w-16 h-8 mr-2 rounded text-white"
-                                    onClick={() => {
-                                        setEventModalShow(false);
-                                        setSelectedEvent(null)
-                                    }}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 hover:bg-blue-600 w-16 h-8 my-2 rounded text-white"
-                                    
-                                >
-                                    Save
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                type="submit"
-                                className="bg-blue-500 hover:bg-blue-600 px-6 py-2 my-2 rounded text-white"
-                            >
-                                Save
-                            </button>
-                        )}
+                    {/* Buttons for cancelling or saving the event */}
+                    <div className='flex justify-between w-full'>
+                        <button
+                            type="button"
+                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md"
+                            onClick={() => {
+                                setEventModalShow(false);
+                                setSelectedEvent(null);
+                            }}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+                        >
+                            Save
+                        </button>
                     </div>
 
-                    {/* Display selected date */}
-                    <div className='mt-2'>
+                    {/* Display the selected date for the event */}
+                    <div className='mt-4 text-center text-gray-600'>
                         {selectedEvent ? dayjs(selectedEvent.date).format('dddd, MMMM DD') : selectedDay.format('dddd, MMMM DD')}
                     </div>
                 </form>
